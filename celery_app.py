@@ -1,9 +1,8 @@
 import os
 from celery import Celery
 import time
-import os
 
-CELERY_BROKER = os.getenv("CELERY_BROKER")
+CELERY_BROKER = os.getenv("REDIS_URL")
 
 celery_app = Celery(
     "tasks", broker=CELERY_BROKER, backend=CELERY_BROKER

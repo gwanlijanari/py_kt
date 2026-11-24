@@ -2,8 +2,9 @@ import bcrypt
 from datetime import datetime, timedelta
 from jose import jwt
 from fastapi.security import OAuth2PasswordBearer
+import os
 
-SECRET_KEY = "замените-на-длинную-случайную-строку-и-не-храните-в-коде"
+SECRET_KEY = os.getenv("SECRET_KEY", "key12321")
 
 
 def hash_password(password: str):
@@ -23,6 +24,6 @@ def create_token(user_id: int):
         "sub": str(user_id),
         "exp": datetime.utcnow() + timedelta(minutes=30)
     }
-    return jwt.encode(payload, SECRET_KEY)
+    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
 oauth2_scheme = OAuth2PasswordBearer("/auth/login")

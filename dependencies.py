@@ -10,7 +10,7 @@ from security import oauth2_scheme, SECRET_KEY
 def get_current_user(
     token: str = Depends(oauth2_scheme), session: Session = Depends(get_session)
 ):
-    payload = jwt.decode(token, SECRET_KEY)
+    payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
     user_id = payload.get("sub")
     user = session.get(User, user_id)
     if user is None:
